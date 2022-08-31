@@ -1,4 +1,5 @@
 import { Component } from 'react'
+//import nextId from "react-id-generator"
 
 import AppInfo from '../app-info'
 import SearchPanel from '../search-panel'
@@ -18,6 +19,7 @@ class App extends Component {
         { name: 'Carl', salary: 5000, increase: false, rise: false, id: 3 }
       ]
     }
+    this.maxId = 4
   }
 
   deleteItem = (id) => {
@@ -26,8 +28,20 @@ class App extends Component {
     }))
   }
 
-  addItem = () => {
-    console.log('New Item')
+  addItem = (name, salary) => {
+    const newItem = {
+      name,
+      salary,
+      increase: false,
+      id: this.maxId++
+    }
+    console.log(newItem.id)
+    this.setState(({ data }) => {
+      const newArr = [...data, newItem];
+      return {
+        data: newArr
+      }
+    })
   }
 
   render() {
@@ -45,7 +59,7 @@ class App extends Component {
           onDelete={this.deleteItem}
         />
         <EmployeesAddForm
-          addItem={this.addItem}
+          onAdd={this.addItem}
         />
       </div>
     )
